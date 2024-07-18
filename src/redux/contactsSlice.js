@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import initialContacts from '../contacts.json';
+// import initialContacts from '../contacts.json';
 
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
-    items: initialContacts,
+    items: [],
   },
   reducers: {
     addContact(state, action) {
