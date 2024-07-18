@@ -1,10 +1,10 @@
 import ContactForm from "../ContactForm/ContactForm";
 import SearchBox from "../SearchBox/SearchBox";
 import ContactList from "../ContactList/ContactList";
-import { addContact, deleteContact } from "../../Redux/contactsSlice";
+import { addContact, deleteContact } from "../../redux/contactsSlice";
 import css from "./App.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { changeFilter } from "../../Redux/filtersSlice";
+import { changeFilter } from "../../redux/filtersSlice";
 
 export default function App() {
   const dispatch = useDispatch();
