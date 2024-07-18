@@ -1,47 +1,38 @@
-import initialContacts from "../../contacts.json";
 import ContactForm from "../ContactForm/ContactForm";
 import SearchBox from "../SearchBox/SearchBox";
 import ContactList from "../ContactList/ContactList";
-import { useEffect, useState } from "react";
-
+import { addContact, deleteContact } from "../../Redux/contactsSlice";
 import css from "./App.module.css";
-
-const getInitialContacts = () => {
-  const savedContacts = localStorage.getItem("contacts");
-  if (savedContacts !== null) {
-    return JSON.parse(savedContacts);
-  }
-  return initialContacts;
-};
+import { useDispatch, useSelector } from "react-redux";
+import { changeFilter } from "../../Redux/filtersSlice";
 
 export default function App() {
-  const [contacts, setContacts] = useState(getInitialContacts);
-  const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
+  const contacts = useSelector((state) => state.contacts.items);
+  const filter = useSelector((state) => state.filters.name);
 
-  useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
-
-  const addContact = (newContact) => {
-    setContacts((prevContacts) => [...prevContacts, newContact]);
+  const handleAddContact = (contact) => {
+    dispatch(addContact(contact));
   };
 
-  const onDelete = (contactId) => {
-    setContacts((prevContacts) =>
-      prevContacts.filter((contact) => contact.id !== contactId)
-    );
+  const handleDeleteContact = (contactId) => {
+    dispatch(deleteContact(contactId));
   };
 
-  const shownContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(search.toLowerCase())
+  const handleFilters = (filterValue) => {
+    dispatch(changeFilter(filterValue));
+  };
+
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
     <div className={css.container}>
       <h1>Phonebook</h1>
-      <ContactForm addContact={addContact} />
-      <SearchBox value={search} onSearch={setSearch} />
-      <ContactList contacts={shownContacts} onDelete={onDelete} />
+      <ContactForm addContact={handleAddContact} />
+      <SearchBox value={filter} onSearch={handleFilters} />
+      <ContactList contacts={filteredContacts} onDelete={handleDeleteContact} />
     </div>
   );
 }

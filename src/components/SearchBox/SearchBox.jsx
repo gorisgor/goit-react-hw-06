@@ -8,7 +8,7 @@ export default function SearchBox({ value, onSearch }) {
         className={css.input}
         type="text"
         value={value}
-        onChange={(e) => onSearch(e.target.value)}
+        onChange={(evt) => onSearch(evt.target.value)}
       />
     </div>
   );
